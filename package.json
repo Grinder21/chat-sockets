@@ -9,6 +9,7 @@
     "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\""
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "^9.2.1",
+    "ts-node-dev": "^2.0.0"
   }
 }

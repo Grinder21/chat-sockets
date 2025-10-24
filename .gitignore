@@ -11,8 +11,6 @@ build/
 logs/
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Environment variables
 .env
@@ -26,6 +24,5 @@ yarn-error.log*
 .idea/
 .DS_Store
 
-# Lock files (если используешь другой менеджер пакетов)
-pnpm-lock.yaml
-yarn.lock
+# Lock file для npm
+package-lock.json
