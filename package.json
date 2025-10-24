@@ -1,0 +1,14 @@
+{
+  "name": "chat-sockets",
+  "private": false,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
