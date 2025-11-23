@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 export default function HomePage() {
   const [name, setName] = useState("");
   const navigate = useNavigate();
-
+  // loading, нужно отложить рендер с формы, пока есть там имя или нет
   useEffect(() => {
-    const storedName = localStorage.getItem("username");
+    const storedName = localStorage.getItem("username"); // поменять на sessionStorage
     if (storedName) navigate("/chat");
   }, [navigate]);
 
@@ -16,6 +16,18 @@ export default function HomePage() {
     localStorage.setItem("username", name.trim());
     navigate("/chat");
   };
+
+  // if (isLoading) {
+  //   return {
+  //     <Loader />
+  //   }
+  // }
+
+  // if (storedName) {
+  //   return <Redirect /> // на чат
+  // }
+
+  // обертку для localStorage
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white">

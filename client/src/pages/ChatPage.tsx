@@ -23,9 +23,12 @@ export default function ChatPage() {
     }
 
     socket.on("chatHistory", (msgs: ChatMessage[]) => setMessages(msgs));
+    // механизм подписки
     socket.on("message", (msg: ChatMessage) =>
       setMessages((prev) => [...prev, msg])
     );
+
+    // snapshot
 
     return () => {
       socket.off("message");
@@ -43,6 +46,8 @@ export default function ChatPage() {
     socket.emit("message", { user: username, text: message });
     setMessage("");
   };
+
+  // useCallback
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {

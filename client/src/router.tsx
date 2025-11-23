@@ -3,6 +3,6 @@ import HomePage from "./pages/HomePage";
 import ChatPage from "./pages/ChatPage";
 
 export const router = createBrowserRouter([
-  { path: "/", element: <HomePage /> },
+  { path: "/", element: <HomePage /> }, // лучше назвать LoginPage
   { path: "/chat", element: <ChatPage /> },
 ]);
