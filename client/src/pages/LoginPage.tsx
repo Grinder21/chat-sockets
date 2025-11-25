@@ -41,7 +41,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 px-4 py-3 rounded-xl font-medium transition shadow-md"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-3 rounded-xl font-medium transition shadow-md"
           >
             Войти
           </button>
