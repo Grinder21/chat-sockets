@@ -25,7 +25,9 @@ const messages: ChatMessage[] = [];
 io.on("connection", (socket) => {
   console.log("✅ User connected:", socket.id);
 
-  socket.emit("chatHistory", messages);
+  socket.on("requestHistory", () => {
+    socket.emit("chatHistory", messages);
+  });
 
   socket.on("message", (msg: { user: string; text: string }) => {
     const fullMessage: ChatMessage = {

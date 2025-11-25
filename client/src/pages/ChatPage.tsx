@@ -28,6 +28,8 @@ export default function ChatPage() {
       return;
     }
 
+    socket.emit("requestHistory");
+
     socket.on("chatHistory", handleHistory);
     socket.on("message", handleIncomingMessage);
 
