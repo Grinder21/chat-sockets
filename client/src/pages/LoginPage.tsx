@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     const storedName = session.getUser();
-    if (storedName) navigate("/chat");
+    if (storedName) navigate("/chat"); // роутинг с Redirect
     setIsLoading(false);
   }, [navigate]);
 
@@ -19,9 +19,11 @@ export default function LoginPage() {
     if (!name.trim()) return;
     session.setUser(name.trim());
     navigate("/chat");
-  };
+  }; // забыл обернуть в useCallback
 
   if (isLoading) return <Loader />;
+
+  // убрать Loader и поставить его на ChatPage
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 text-white px-4">

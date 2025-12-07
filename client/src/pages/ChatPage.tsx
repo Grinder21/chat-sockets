@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import socket from "../socket";
+import socket from "../utils/socket";
 import { session } from "../utils/session";
 import type { ChatMessage } from "../types/chat";
 
@@ -20,7 +20,7 @@ export default function ChatPage() {
 
   const handleHistory = useCallback((msgs: ChatMessage[]) => {
     setMessages(msgs);
-  }, []);
+  }, []); // не нужен, можно использовать напрямую setMessages
 
   useEffect(() => {
     if (!session.getUser()) {

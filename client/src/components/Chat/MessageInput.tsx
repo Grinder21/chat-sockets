@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function MessageInput({
-  message,
+  message, // не передавать снаружи message, нужен только sendMessage, state во внутрь
   setMessage,
   sendMessage,
 }: Props) {
