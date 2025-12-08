@@ -8,16 +8,15 @@ interface Props {
 
 export default function MessageList({ messages }: Props) {
   const chatEndRef = useRef<HTMLDivElement | null>(null);
-  console.log("render");
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log("mount");
-  }, [messages]); // повторить про хуки
+  }, [messages]);
 
   return (
     <div className="flex-1 overflow-y-auto p-6 space-y-4 z-10 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
-      {messages.map((msg, index) => (
-        <MessageBubble key={index} msg={msg} />
+      {messages.map((msg) => (
+        <MessageBubble key={msg.id} msg={msg} />
       ))}
       <div ref={chatEndRef} />
     </div>

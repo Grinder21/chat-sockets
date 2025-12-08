@@ -1,32 +1,36 @@
 import { SendHorizonal } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 interface Props {
-  message: string;
-  setMessage: (value: string) => void;
-  sendMessage: () => void;
+  sendMessage: (text: string) => void;
 }
 
-export default function MessageInput({
-  message, // не передавать снаружи message, нужен только sendMessage, state во внутрь
-  setMessage,
-  sendMessage,
-}: Props) {
+export default function MessageInput({ sendMessage }: Props) {
+  const [message, setMessage] = useState("");
+
+  const handleSend = useCallback(() => {
+    const trimmed = message.trim();
+    if (!trimmed) return;
+
+    sendMessage(trimmed);
+    setMessage("");
+  }, [message, sendMessage]);
+
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        sendMessage();
+        handleSend();
       }
     },
-    [sendMessage]
+    [handleSend]
   );
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        sendMessage();
+        handleSend();
       }}
       className="p-4 bg-slate-900/70 backdrop-blur-lg border-t border-slate-700 flex items-center gap-3 sticky bottom-0 z-20"
     >

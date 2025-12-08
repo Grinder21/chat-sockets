@@ -11,49 +11,41 @@ import MessageInput from "../components/Chat/MessageInput";
 export default function ChatPage() {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [message, setMessage] = useState("");
   const username = session.getUser();
 
   const handleIncomingMessage = useCallback((msg: ChatMessage) => {
     setMessages((prev) => [...prev, msg]);
   }, []);
 
-  const handleHistory = useCallback((msgs: ChatMessage[]) => {
-    setMessages(msgs);
-  }, []); // не нужен, можно использовать напрямую setMessages
-
   useEffect(() => {
-    if (!session.getUser()) {
+    if (!username) {
       navigate("/");
       return;
     }
 
     socket.emit("requestHistory");
 
-    socket.on("chatHistory", handleHistory);
+    socket.on("chatHistory", setMessages);
     socket.on("message", handleIncomingMessage);
 
     return () => {
-      socket.off("chatHistory", handleHistory);
+      socket.off("chatHistory", setMessages);
       socket.off("message", handleIncomingMessage);
     };
-  }, [navigate, username, handleIncomingMessage, handleHistory]);
+  }, [navigate, username, handleIncomingMessage]);
 
-  const sendMessage = useCallback(() => {
-    if (!message.trim()) return;
-    socket.emit("message", { user: username, text: message });
-    setMessage("");
-  }, [message, username]);
+  const sendMessage = useCallback(
+    (text: string) => {
+      socket.emit("message", { user: username, text });
+    },
+    [username]
+  );
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 text-white relative overflow-hidden">
       <ChatHeader />
       <MessageList messages={messages} />
-      <MessageInput
-        message={message}
-        setMessage={setMessage}
-        sendMessage={sendMessage}
-      />
+      <MessageInput sendMessage={sendMessage} />
     </div>
   );
 }
