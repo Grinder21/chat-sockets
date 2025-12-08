@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import socket from "../utils/socket";
 import { session } from "../utils/session";
 import type { ChatMessage } from "../types/chat";
@@ -9,7 +8,6 @@ import MessageList from "../components/Chat/MessageList";
 import MessageInput from "../components/Chat/MessageInput";
 
 export default function ChatPage() {
-  const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const username = session.getUser();
 
@@ -18,13 +16,7 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    if (!username) {
-      navigate("/");
-      return;
-    }
-
     socket.emit("requestHistory");
-
     socket.on("chatHistory", setMessages);
     socket.on("message", handleIncomingMessage);
 
@@ -32,7 +24,7 @@ export default function ChatPage() {
       socket.off("chatHistory", setMessages);
       socket.off("message", handleIncomingMessage);
     };
-  }, [navigate, username, handleIncomingMessage]);
+  }, [handleIncomingMessage]);
 
   const sendMessage = useCallback(
     (text: string) => {

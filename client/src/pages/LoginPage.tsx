@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Loader from "../components/UI/Loader";
 import { session } from "../utils/session";
 
@@ -8,33 +8,34 @@ const allowedUsers = ["Вася", "Петя"];
 export default function LoginPage() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     const storedName = session.getUser();
-    if (storedName) navigate("/chat");
+    if (storedName) setRedirect(true);
     setIsLoading(false);
-  }, [navigate]);
+  }, []);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-
       const trimmed = name.trim();
       if (!trimmed) return;
 
       if (!allowedUsers.includes(trimmed)) {
-        alert("Имя не найдено");
+        alert("Имя не найдено.");
         return;
       }
 
       session.setUser(trimmed);
-      navigate("/chat");
+      setRedirect(true);
     },
-    [name, navigate]
+    [name]
   );
 
   if (isLoading) return <Loader />;
+
+  if (redirect) return <Navigate to="/chat" replace />;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-800 text-white px-4">
